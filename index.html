@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Minneapolis Skyway Navigator</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Skyway Navigator">
+    <meta name="description" content="Navigate the Minneapolis Skyway System with confidence - operating hours, routes, and tips">
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiM2NjdlZWEiLz4KPHN2ZyB4PSI0OCIgeT0iNDgiIHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9Ik0yIDEySDZMMTAgOEgxNEwxOCAxMkgyMk0yIDEyVjE2SDE0VjEyTTEwIDhWNEgyMlY4SDE0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz4KPC9zdmc+Cjwvc3ZnPgo=">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiM2NjdlZWEiLz4KPHN2ZyB4PSI0OCIgeT0iNDgiIHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9Ik0yIDEySDZMMTAgOEgxNEwxOCAxMkgyMk0yIDEyVjE2SDE0VjEyTTEwIDhWNEgyMlY4SDE0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz4KPC9zdmc+Cjwvc3ZnPgo=">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .app-container {
+            position: relative;
+            width: 100vw;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 15px 20px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 1.2em;
+            color: #2c3e50;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .slide {
+            display: none;
+            padding: 20px;
+            max-width: 100%;
+            margin: 0 auto;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        h2 {
+            color: #34495e;
+            font-size: 1.4em;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: #2980b9;
+            font-size: 1.1em;
+            margin: 16px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p, li {
+            font-size: 1em;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        ul {
+            margin-left: 16px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #e3f2fd 0%, #f3e5f5 100%);
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 4px solid #2196f3;
+            margin: 16px 0;
+        }
+
+        .warning {
+            background: linear-gradient(120deg, #fff3e0 0%, #fce4ec 100%);
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 4px solid #ff9800;
+            margin: 16px 0;
+        }
+
+        .success {
+            background: linear-gradient(120deg, #e8f5e8 0%, #e0f2f1 100%);
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 4px solid #4caf50;
+            margin: 16px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-size: 0.9em;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .building-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .building-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #3498db;
+            font-size: 0.9em;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+            min-width: 80px;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            transform: none;
+        }
+
+        .slide-counter {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.9em;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .quick-action {
+            background: linear-gradient(135deg, #55a3ff, #003d82);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .quick-action:active {
+            transform: scale(0.95);
+        }
+
+        .quick-action:visited {
+            color: white;
+        }
+
+        .install-prompt {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 16px 0;
+            text-align: center;
+            display: none;
+        }
+
+        .install-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            
+            .stat-box {
+                padding: 12px;
+            }
+            
+            .stat-number {
+                font-size: 1.5em;
+            }
+            
+            .card {
+                padding: 16px;
+                margin-bottom: 16px;
+            }
+            
+            table {
+                font-size: 0.8em;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+            }
+        }
+
+        /* PWA specific styles */
+        @media (display-mode: standalone) {
+            .header {
+                padding-top: max(15px, env(safe-area-inset-top));
+            }
+            
+            .navigation {
+                padding-bottom: max(15px, env(safe-area-inset-bottom));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>Minneapolis Skyway Navigator</h1>
+        </div>
+
+        <div class="install-prompt" id="installPrompt">
+            <p><strong>📱 Install this app!</strong></p>
+            <p>Add to your home screen for quick access</p>
+            <button class="install-btn" id="installBtn">Install App</button>
+        </div>
+
+        <!-- Slide 1: Home -->
+        <div class="slide active">
+            <div class="card">
+                <h1>Welcome to Your Skyway Guide</h1>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-number">80+</span>
+                        <span class="stat-label">Segments</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">150+</span>
+                        <span class="stat-label">Buildings</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">9.5</span>
+                        <span class="stat-label">Miles</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">#1</span>
+                        <span class="stat-label">Worldwide</span>
+                    </div>
+                </div>
+                
+                <div class="warning">
+                    <p><strong>⚠️ Key Challenge</strong></p>
+                    <p>No single schedule exists! Each building controls its own skyway hours.</p>
+                </div>
+                
+                <div class="quick-actions">
+                    <a href="https://skywayaccess.com" class="quick-action" target="_blank">
+                        🔍 Check Hours
+                    </a>
+                    <a href="#" class="quick-action" onclick="goToSlide(6)">
+                        📍 Find Buildings
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Quick Reference -->
+        <div class="slide">
+            <div class="card">
+                <h1>⏰ Quick Reference</h1>
+                
+                <h3>Weekdays (Mon-Fri)</h3>
+                <div class="success">
+                    <p><strong>✅ Most segments OPEN</strong></p>
+                    <p>Usually 6:00 AM - 6:00 PM</p>
+                </div>
+                
+                <h3>Weekends (Sat-Sun)</h3>
+                <div class="warning">
+                    <p><strong>❌ Most segments CLOSED</strong></p>
+                    <p>Limited exceptions - always verify!</p>
+                </div>
+                
+                <h3>Holidays</h3>
+                <div class="warning">
+                    <p><strong>❌ Most segments CLOSED</strong></p>
+                    <p>Similar to weekends</p>
+                </div>
+                
+                <div class="highlight">
+                    <p><strong>💡 Pro Tip</strong></p>
+                    <p>Check SkywayAccess.com before traveling, especially on weekends or after 6 PM!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: How to Check Hours -->
+        <div class="slide">
+            <div class="card">
+                <h1>🔍 How to Check Hours</h1>
+                
+                <h3>1. SkywayAccess.com</h3>
+                <div class="success">
+                    <p><strong>✅ Official Resource</strong></p>
+                    <p>Search by building name for current hours</p>
+                </div>
+                
+                <h3>2. On-Site Signs</h3>
+                <p>Watch for signs showing modified hours</p>
+                
+                <h3>3. Ask Building Staff</h3>
+                <p>Information desks and security can help</p>
+                
+                <h3>4. Local Knowledge</h3>
+                <p>Ask confident-looking pedestrians</p>
+                
+                <div class="warning">
+                    <p><strong>⚠️ Important</strong></p>
+                    <p>Building doors may be locked even if skyway is technically open. Check access from street level first!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Examples -->
+        <div class="slide">
+            <div class="card">
+                <h1>📋 Building Examples</h1>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Building</th>
+                            <th>Weekday</th>
+                            <th>Weekend</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>100 Washington Square</td>
+                            <td>6AM-6PM</td>
+                            <td>8AM-6PM ✅</td>
+                        </tr>
+                        <tr>
+                            <td>111 Washington Square</td>
+                            <td>6AM-6PM</td>
+                            <td>Closed ❌</td>
+                        </tr>
+                        <tr>
+                            <td>Radisson Blu</td>
+                            <td>6:30AM-10PM</td>
+                            <td>Shorter hrs</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="highlight">
+                    <p><strong>🎯 Key Insight</strong></p>
+                    <p>These are just examples! Every building is different. Always verify your specific route.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Target Center Route -->
+        <div class="slide">
+            <div class="card">
+                <h1>🏀 Target Center Special Route</h1>
+                
+                <div class="success">
+                    <p><strong>✅ Extended Hours for Events</strong></p>
+                    <p>Special route stays open for Timberwolves & Lynx games</p>
+                </div>
+                
+                <h3>Connected Buildings Include:</h3>
+                <div class="building-grid">
+                    <div class="building-item">Target Center (Arena)</div>
+                    <div class="building-item">Multiple Parking Ramps</div>
+                    <div class="building-item">Hampton Inn & Suites</div>
+                    <div class="building-item">Marriott City Center</div>
+                    <div class="building-item">Embassy Suites</div>
+                    <div class="building-item">Loews Hotel</div>
+                </div>
+                
+                <div class="highlight">
+                    <p><strong>📍 More Info</strong></p>
+                    <p>Visit skywayaccess.com/targetcenter/ for route maps and event schedules</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Major Buildings -->
+        <div class="slide">
+            <div class="card">
+                <h1>🏢 Major Connected Buildings</h1>
+                
+                <h3>Popular Entry Points</h3>
+                <div class="building-grid">
+                    <div class="building-item"><strong>IDS Center</strong> - Crystal Court hub</div>
+                    <div class="building-item"><strong>City Center</strong> - Popular entry</div>
+                    <div class="building-item"><strong>US Bank Plaza</strong> - Popular entry</div>
+                    <div class="building-item"><strong>Target Store</strong> - Nicollet Mall</div>
+                    <div class="building-item"><strong>Wells Fargo Center</strong> - Popular entry</div>
+                </div>
+                
+                <h3>Major Venues</h3>
+                <div class="building-grid">
+                    <div class="building-item">Target Center (NBA/WNBA)</div>
+                    <div class="building-item">Target Field (MLB)</div>
+                    <div class="building-item">U.S. Bank Stadium (NFL)</div>
+                    <div class="building-item">Convention Center</div>
+                    <div class="building-item">Central Library</div>
+                </div>
+                
+                <div class="warning">
+                    <p><strong>⚠️ Remember</strong></p>
+                    <p>Being on this list doesn't guarantee hours! Always verify access times.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Navigation Tips -->
+        <div class="slide">
+            <div class="card">
+                <h1>🧭 Navigation Tips</h1>
+                
+                <h3>Before You Go</h3>
+                <ul>
+                    <li>Check SkywayAccess.com for your route</li>
+                    <li>Plan a backup street-level route</li>
+                    <li>Know that free bathrooms are rare</li>
+                </ul>
+                
+                <h3>Getting Access</h3>
+                <ul>
+                    <li>Enter buildings and go to 2nd level</li>
+                    <li>Look for 'SK' button in elevators</li>
+                    <li>Building must be open for access</li>
+                </ul>
+                
+                <h3>If Segments Are Closed</h3>
+                <ul>
+                    <li>Stay flexible and ready to reroute</li>
+                    <li>Go to street level to bypass</li>
+                    <li>Re-enter at different building</li>
+                    <li>Check signs for detour info</li>
+                </ul>
+                
+                <div class="highlight">
+                    <p><strong>🌡️ Weather Note</strong></p>
+                    <p>You may still need outdoor clothing to reach skyway entrances!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Key Strategies -->
+        <div class="slide">
+            <div class="card">
+                <h1>🎯 Success Strategies</h1>
+                
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-number">1</span>
+                        <span class="stat-label">Check SkywayAccess.com</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">2</span>
+                        <span class="stat-label">Watch for Signs</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Plan Backups</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">4</span>
+                        <span class="stat-label">Stay Flexible</span>
+                    </div>
+                </div>
+                
+                <h3>The Proactive Approach</h3>
+                <div class="success">
+                    <ul>
+                        <li><strong>Before travel:</strong> Check resources close to departure</li>
+                        <li><strong>During travel:</strong> Watch signage, adapt as needed</li>
+                        <li><strong>Critical journeys:</strong> Always have street alternatives</li>
+                        <li><strong>Weekends/holidays:</strong> Expect restrictions</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight">
+                    <p><strong>💡 Remember</strong></p>
+                    <p>The skyway's engineering provides the pathways; your informed approach unlocks their full utility!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Back</button>
+            <div class="slide-counter">
+                <span id="current-slide">1</span> / <span id="total-slides">8</span>
+            </div>
+            <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            if (direction === 1 && currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            } else if (direction === -1 && currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        function goToSlide(n) {
+            showSlide(n);
+        }
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                changeSlide(1); // Swipe left - next slide
+            }
+            if (touchEndX > touchStartX + 50) {
+                changeSlide(-1); // Swipe right - previous slide
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                changeSlide(-1);
+            }
+        });
+
+        // PWA Install functionality
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installPrompt.style.display = 'block';
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                installPrompt.style.display = 'none';
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            installPrompt.style.display = 'none';
+        });
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register(
+                    'data:application/javascript;base64,' + btoa(`
+                        const CACHE_NAME = 'skyway-navigator-v1';
+                        const urlsToCache = ['./', '/'];
+
+                        self.addEventListener('install', (event) => {
+                            event.waitUntil(
+                                caches.open(CACHE_NAME).then((cache) => {
+                                    return cache.addAll(urlsToCache);
+                                })
+                            );
+                        });
+
+                        self.addEventListener('fetch', (event) => {
+                            event.respondWith(
+                                caches.match(event.request).then((response) => {
+                                    return response || fetch(event.request);
+                                })
+                            );
+                        });
+                    `)
+                ).catch((error) => {
+                    console.log('SW registration failed');
+                });
+            });
+        }
+
+        // Initialize
+        showSlide(0);
+    </script>
+
+    <!-- Web App Manifest -->
+    <script>
+        const manifestData = {
+            "name": "Minneapolis Skyway Navigator",
+            "short_name": "Skyway Guide",
+            "description": "Navigate the Minneapolis Skyway System with confidence",
+            "start_url": "./",
+            "display": "standalone",
+            "background_color": "#667eea",
+            "theme_color": "#667eea",
+            "orientation": "portrait",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiM2NjdlZWEiLz4KPHN2ZyB4PSI0OCIgeT0iNDgiIHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9Ik0yIDEySDZMMTAgOEgxNEwxOCAxMkgyMk0yIDEyVjE2SDE0VjEyTTEwIDhWNEgyMlY4SDE0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz4KPC9zdmc+Cjwvc3ZnPgo=",
+                    "sizes": "192x192",
+                    "type": "image/svg+xml"
+                },
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iNjQiIGZpbGw9IiM2NjdlZWEiLz4KPHN2ZyB4PSIxMjgiIHk9IjEyOCIgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPgo8cGF0aCBkPSJNMiAxMkg2TDEwIDhIMTRMMTggMTJIMjJNMiAxMlYxNkgxNFYxMk0xMCA4VjRIMjJWOEgxNCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+Cjwvc3ZnPgo8L3N2Zz4K",
+                    "sizes": "512x512",
+                    "type": "image/svg+xml"
+                }
+            ]
+        };
+
+        const manifestBlob = new Blob([JSON.stringify(manifestData)], {
+            type: 'application/json'
+        });
+        const manifestURL = URL.createObjectURL(manifestBlob);
+        
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = manifestURL;
+        document.head.appendChild(link);
+    </script>
+</body>
+</html>
