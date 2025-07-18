@@ -5,7 +5,8 @@
   "main": "index.html",
   "scripts": {
     "start": "npx http-server . -p 3000 -c-1",
-    "dev": "npx http-server . -p 3000 -c-1"
+    "dev": "npx http-server . -p 3000 -c-1",
+    "build": "echo 'Static files are ready for deployment' && mkdir -p dist && cp -r . dist/ && rm -rf dist/node_modules dist/.git"
   },
   "keywords": ["minneapolis", "skyway", "pwa", "navigation"],
   "author": "",
