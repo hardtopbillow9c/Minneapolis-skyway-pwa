@@ -254,6 +254,12 @@ const buildingData = [
     }
 ];
 
+// Route data for the RoutePlanner
+const routeData = [
+    // This will be populated with actual skyway route segments
+    // For now, it's an empty array to prevent the ReferenceError
+];
+
 // Function to get current status of a building
 function getCurrentStatus(building) {
     const now = new Date();
