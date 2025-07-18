@@ -299,6 +299,219 @@
             color: white;
         }
 
+        /* New styles for enhanced features */
+        .search-container {
+            position: relative;
+            margin: 16px 0;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1em;
+            background: white;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .building-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 16px 0;
+        }
+
+        .building-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .building-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .building-card.selected {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .building-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+
+        .building-address {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .building-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .route-planner {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+
+        .route-selector {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .route-building {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+        .route-building.selected {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .route-arrow {
+            font-size: 1.5em;
+            color: #667eea;
+        }
+
+        .route-result {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .route-path {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+        }
+
+        .route-segment {
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .route-arrow-small {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .route-warnings {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .route-warnings ul {
+            margin: 0;
+            padding-left: 16px;
+        }
+
+        .favorites-container {
+            margin: 16px 0;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+
+        .favorite-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .favorite-btn.active {
+            color: #ff6b6b;
+        }
+
+        .status-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .status-card {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #ccc;
+        }
+
+        .status-card.good {
+            border-left-color: #4caf50;
+        }
+
+        .status-card.warning {
+            border-left-color: #ff9800;
+        }
+
+        .status-card.poor {
+            border-left-color: #f44336;
+        }
+
+        .weather-status {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 16px 0;
+            text-align: center;
+        }
+
         .install-prompt {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
@@ -377,6 +590,12 @@
         <div class="slide active">
             <div class="card">
                 <h1>Welcome to Your Skyway Guide</h1>
+                
+                <div class="weather-status" id="weatherStatus">
+                    <p><strong>🌤️ Perfect Skyway Weather!</strong></p>
+                    <p>Great day to stay indoors and use the skyway system</p>
+                </div>
+                
                 <div class="stats-grid">
                     <div class="stat-box">
                         <span class="stat-number">80+</span>
@@ -405,14 +624,107 @@
                     <a href="https://skywayaccess.com" class="quick-action" target="_blank">
                         🔍 Check Hours
                     </a>
-                    <a href="#" class="quick-action" onclick="goToSlide(6)">
-                        📍 Find Buildings
+                    <a href="#" class="quick-action" onclick="goToSlide(2)">
+                        🏢 Building Directory
+                    </a>
+                    <a href="#" class="quick-action" onclick="goToSlide(3)">
+                        🗺️ Route Planner
+                    </a>
+                    <a href="#" class="quick-action" onclick="goToSlide(4)">
+                        📊 Live Status
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 2: Quick Reference -->
+        <!-- Slide 2: Building Directory -->
+        <div class="slide">
+            <div class="card">
+                <h1>🏢 Building Directory</h1>
+                
+                <div class="search-container">
+                    <input type="text" class="search-input" id="buildingSearch" 
+                           placeholder="Search buildings..." 
+                           oninput="filterBuildings()">
+                </div>
+                
+                <div class="favorites-container">
+                    <h3>⭐ Your Favorites</h3>
+                    <div id="favoriteBuildings" class="building-list">
+                        <p style="color: #666; font-style: italic;">No favorites yet. Tap the ⭐ on any building to add it!</p>
+                    </div>
+                </div>
+                
+                <h3>All Buildings</h3>
+                <div id="buildingList" class="building-list">
+                    <!-- Buildings will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Route Planner -->
+        <div class="slide">
+            <div class="card">
+                <h1>🗺️ Route Planner</h1>
+                
+                <div class="route-planner">
+                    <div class="route-selector">
+                        <div class="route-building" id="fromBuilding" onclick="selectFromBuilding()">
+                            <div style="font-weight: 600;">From</div>
+                            <div id="fromBuildingName">Select Building</div>
+                        </div>
+                        <div class="route-arrow">→</div>
+                        <div class="route-building" id="toBuilding" onclick="selectToBuilding()">
+                            <div style="font-weight: 600;">To</div>
+                            <div id="toBuildingName">Select Building</div>
+                        </div>
+                    </div>
+                    
+                    <div id="routeResult" class="route-result" style="display: none;">
+                        <!-- Route results will be populated here -->
+                    </div>
+                </div>
+                
+                <h3>Popular Routes</h3>
+                <div id="popularRoutes">
+                    <!-- Popular routes will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Live Status -->
+        <div class="slide">
+            <div class="card">
+                <h1>📊 Live Status Dashboard</h1>
+                
+                <div class="status-summary">
+                    <div class="status-card good">
+                        <div style="font-size: 1.5em; font-weight: bold;" id="openCount">-</div>
+                        <div style="font-size: 0.85em;">Likely Open</div>
+                    </div>
+                    <div class="status-card warning">
+                        <div style="font-size: 1.5em; font-weight: bold;" id="unknownCount">-</div>
+                        <div style="font-size: 0.85em;">Unknown</div>
+                    </div>
+                    <div class="status-card poor">
+                        <div style="font-size: 1.5em; font-weight: bold;" id="closedCount">-</div>
+                        <div style="font-size: 0.85em;">Likely Closed</div>
+                    </div>
+                </div>
+                
+                <div class="highlight">
+                    <p><strong>🕐 Current Time Analysis</strong></p>
+                    <p id="timeAnalysis">Analyzing current conditions...</p>
+                </div>
+                
+                <h3>Weekend-Friendly Buildings</h3>
+                <div id="weekendBuildings" class="building-list">
+                    <!-- Weekend-friendly buildings will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Quick Reference -->
         <div class="slide">
             <div class="card">
                 <h1>⏰ Quick Reference</h1>
@@ -442,7 +754,7 @@
             </div>
         </div>
 
-        <!-- Slide 3: How to Check Hours -->
+        <!-- Slide 6: How to Check Hours -->
         <div class="slide">
             <div class="card">
                 <h1>🔍 How to Check Hours</h1>
@@ -469,7 +781,7 @@
             </div>
         </div>
 
-        <!-- Slide 4: Examples -->
+        <!-- Slide 7: Examples -->
         <div class="slide">
             <div class="card">
                 <h1>📋 Building Examples</h1>
@@ -508,7 +820,7 @@
             </div>
         </div>
 
-        <!-- Slide 5: Target Center Route -->
+        <!-- Slide 8: Target Center Route -->
         <div class="slide">
             <div class="card">
                 <h1>🏀 Target Center Special Route</h1>
@@ -535,7 +847,7 @@
             </div>
         </div>
 
-        <!-- Slide 6: Major Buildings -->
+        <!-- Slide 9: Major Buildings -->
         <div class="slide">
             <div class="card">
                 <h1>🏢 Major Connected Buildings</h1>
@@ -565,7 +877,7 @@
             </div>
         </div>
 
-        <!-- Slide 7: Navigation Tips -->
+        <!-- Slide 10: Navigation Tips -->
         <div class="slide">
             <div class="card">
                 <h1>🧭 Navigation Tips</h1>
@@ -599,7 +911,7 @@
             </div>
         </div>
 
-        <!-- Slide 8: Key Strategies -->
+        <!-- Slide 11: Key Strategies -->
         <div class="slide">
             <div class="card">
                 <h1>🎯 Success Strategies</h1>
@@ -643,13 +955,318 @@
         <div class="navigation">
             <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Back</button>
             <div class="slide-counter">
-                <span id="current-slide">1</span> / <span id="total-slides">8</span>
+                <span id="current-slide">1</span> / <span id="total-slides">11</span>
             </div>
             <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
         </div>
     </div>
 
+    <!-- Include the new JavaScript modules -->
+    <script src="js/buildingData.js"></script>
+    <script src="js/routePlanner.js"></script>
+    
     <script>
+        // Initialize enhanced features
+        let routePlanner;
+        let favorites = JSON.parse(localStorage.getItem('skyway-favorites') || '[]');
+        let selectedFromBuilding = null;
+        let selectedToBuilding = null;
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            routePlanner = new RoutePlanner(buildingData, routeData);
+            initializeBuildingDirectory();
+            initializeStatusDashboard();
+            initializePopularRoutes();
+            updateWeatherStatus();
+        });
+        
+        // Building Directory Functions
+        function initializeBuildingDirectory() {
+            const buildingList = document.getElementById('buildingList');
+            buildingList.innerHTML = '';
+            
+            buildingData.forEach(building => {
+                const buildingCard = createBuildingCard(building);
+                buildingList.appendChild(buildingCard);
+            });
+            
+            updateFavoritesList();
+        }
+        
+        function createBuildingCard(building) {
+            const card = document.createElement('div');
+            card.className = 'building-card';
+            card.dataset.buildingId = building.id;
+            
+            const status = getCurrentStatus(building);
+            const statusColor = getStatusColor(status);
+            const statusIcon = getStatusIcon(status);
+            
+            const isFavorite = favorites.includes(building.id);
+            
+            card.innerHTML = `
+                <button class="favorite-btn ${isFavorite ? 'active' : ''}" 
+                        onclick="toggleFavorite('${building.id}', event)">
+                    ${isFavorite ? '⭐' : '☆'}
+                </button>
+                <div class="building-name">${building.name}</div>
+                <div class="building-address">${building.address}</div>
+                <div class="building-status">
+                    <span class="status-indicator" style="background-color: ${statusColor}"></span>
+                    ${statusIcon} ${status.replace('-', ' ').toUpperCase()}
+                </div>
+                <div style="font-size: 0.85em; color: #666; margin-top: 8px;">
+                    ${building.description}
+                </div>
+                <div style="font-size: 0.8em; color: #888; margin-top: 4px;">
+                    Weekday: ${building.weekdayHours} | Weekend: ${building.weekendHours}
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        function filterBuildings() {
+            const query = document.getElementById('buildingSearch').value;
+            const results = routePlanner.searchBuildings(query);
+            
+            const buildingList = document.getElementById('buildingList');
+            buildingList.innerHTML = '';
+            
+            results.forEach(building => {
+                const buildingCard = createBuildingCard(building);
+                buildingList.appendChild(buildingCard);
+            });
+        }
+        
+        function toggleFavorite(buildingId, event) {
+            event.stopPropagation();
+            
+            const index = favorites.indexOf(buildingId);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(buildingId);
+            }
+            
+            localStorage.setItem('skyway-favorites', JSON.stringify(favorites));
+            initializeBuildingDirectory();
+        }
+        
+        function updateFavoritesList() {
+            const favoriteContainer = document.getElementById('favoriteBuildings');
+            
+            if (favorites.length === 0) {
+                favoriteContainer.innerHTML = '<p style="color: #666; font-style: italic;">No favorites yet. Tap the ⭐ on any building to add it!</p>';
+                return;
+            }
+            
+            favoriteContainer.innerHTML = '';
+            favorites.forEach(buildingId => {
+                const building = buildingData.find(b => b.id === buildingId);
+                if (building) {
+                    const card = createBuildingCard(building);
+                    favoriteContainer.appendChild(card);
+                }
+            });
+        }
+        
+        // Route Planner Functions
+        function selectFromBuilding() {
+            // For now, use a simple prompt - could be enhanced with a modal
+            const buildingName = prompt('Enter building name:');
+            if (buildingName) {
+                const results = routePlanner.searchBuildings(buildingName);
+                if (results.length > 0) {
+                    selectedFromBuilding = results[0];
+                    document.getElementById('fromBuildingName').textContent = selectedFromBuilding.name;
+                    document.getElementById('fromBuilding').classList.add('selected');
+                    checkForRoute();
+                }
+            }
+        }
+        
+        function selectToBuilding() {
+            const buildingName = prompt('Enter building name:');
+            if (buildingName) {
+                const results = routePlanner.searchBuildings(buildingName);
+                if (results.length > 0) {
+                    selectedToBuilding = results[0];
+                    document.getElementById('toBuildingName').textContent = selectedToBuilding.name;
+                    document.getElementById('toBuilding').classList.add('selected');
+                    checkForRoute();
+                }
+            }
+        }
+        
+        function checkForRoute() {
+            if (selectedFromBuilding && selectedToBuilding) {
+                const route = routePlanner.findRoute(selectedFromBuilding.id, selectedToBuilding.id);
+                displayRoute(route);
+            }
+        }
+        
+        function displayRoute(route) {
+            const routeResult = document.getElementById('routeResult');
+            
+            if (!route) {
+                routeResult.innerHTML = '<p>No direct route found. Try checking individual building connections.</p>';
+                routeResult.style.display = 'block';
+                return;
+            }
+            
+            const pathHtml = route.segments.map((segmentId, index) => {
+                const building = buildingData.find(b => b.id === segmentId);
+                const isLast = index === route.segments.length - 1;
+                return `
+                    <span class="route-segment">${building ? building.name : segmentId}</span>
+                    ${!isLast ? '<span class="route-arrow-small">→</span>' : ''}
+                `;
+            }).join('');
+            
+            let warningsHtml = '';
+            if (route.warnings && route.warnings.length > 0) {
+                warningsHtml = `
+                    <div class="route-warnings">
+                        <strong>⚠️ Warnings:</strong>
+                        <ul>
+                            ${route.warnings.map(warning => `<li>${warning}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            routeResult.innerHTML = `
+                <h4>${route.name}</h4>
+                <div class="route-path">${pathHtml}</div>
+                <p><strong>Estimated Time:</strong> ${route.estimatedTime}</p>
+                <p><strong>Weekend Viability:</strong> ${route.weekendViability}</p>
+                <p><strong>Notes:</strong> ${route.notes}</p>
+                ${warningsHtml}
+            `;
+            
+            routeResult.style.display = 'block';
+        }
+        
+        function initializePopularRoutes() {
+            const popularRoutes = routePlanner.getPopularRoutes();
+            const container = document.getElementById('popularRoutes');
+            
+            container.innerHTML = popularRoutes.map(route => `
+                <div class="building-item" onclick="loadPopularRoute('${route.id}')">
+                    <strong>${route.name}</strong><br>
+                    <small>${route.estimatedTime} • ${route.weekendViability} weekend access</small>
+                </div>
+            `).join('');
+        }
+        
+        function loadPopularRoute(routeId) {
+            const route = routeData.find(r => r.id === routeId);
+            if (route) {
+                selectedFromBuilding = buildingData.find(b => b.id === route.from);
+                selectedToBuilding = buildingData.find(b => b.id === route.to);
+                
+                document.getElementById('fromBuildingName').textContent = selectedFromBuilding.name;
+                document.getElementById('toBuildingName').textContent = selectedToBuilding.name;
+                document.getElementById('fromBuilding').classList.add('selected');
+                document.getElementById('toBuilding').classList.add('selected');
+                
+                displayRoute(routePlanner.enhanceRoute(route));
+            }
+        }
+        
+        // Status Dashboard Functions
+        function initializeStatusDashboard() {
+            updateStatusCounts();
+            updateTimeAnalysis();
+            updateWeekendBuildings();
+        }
+        
+        function updateStatusCounts() {
+            let openCount = 0;
+            let closedCount = 0;
+            let unknownCount = 0;
+            
+            buildingData.forEach(building => {
+                const status = getCurrentStatus(building);
+                switch (status) {
+                    case 'likely-open': openCount++; break;
+                    case 'likely-closed': closedCount++; break;
+                    default: unknownCount++; break;
+                }
+            });
+            
+            document.getElementById('openCount').textContent = openCount;
+            document.getElementById('closedCount').textContent = closedCount;
+            document.getElementById('unknownCount').textContent = unknownCount;
+        }
+        
+        function updateTimeAnalysis() {
+            const now = new Date();
+            const hour = now.getHours();
+            const day = now.getDay();
+            const isWeekend = day === 0 || day === 6;
+            
+            let analysis = '';
+            
+            if (isWeekend) {
+                analysis = 'It\'s the weekend! Most office buildings are closed, but hotels, some retail locations, and event venues may be open.';
+            } else if (hour >= 6 && hour <= 18) {
+                analysis = 'Peak skyway hours! Most buildings should be accessible.';
+            } else if (hour >= 19 && hour <= 22) {
+                analysis = 'Evening hours - many office buildings are closing. Hotels and some retail remain open.';
+            } else {
+                analysis = 'Late night/early morning - most buildings are closed except 24-hour locations like hotels.';
+            }
+            
+            document.getElementById('timeAnalysis').textContent = analysis;
+        }
+        
+        function updateWeekendBuildings() {
+            const weekendBuildings = routePlanner.getWeekendFriendlyBuildings();
+            const container = document.getElementById('weekendBuildings');
+            
+            container.innerHTML = weekendBuildings.map(building => {
+                const status = getCurrentStatus(building);
+                const statusIcon = getStatusIcon(status);
+                return `
+                    <div class="building-item">
+                        <strong>${building.name}</strong> ${statusIcon}<br>
+                        <small>${building.weekendHours}</small>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function updateWeatherStatus() {
+            // Simple weather-based recommendation
+            const now = new Date();
+            const month = now.getMonth();
+            const isWinter = month >= 11 || month <= 2;
+            const isSummer = month >= 5 && month <= 8;
+            
+            const weatherStatus = document.getElementById('weatherStatus');
+            
+            if (isWinter) {
+                weatherStatus.innerHTML = `
+                    <p><strong>❄️ Winter Weather Alert!</strong></p>
+                    <p>Perfect weather for skyway travel - stay warm and dry!</p>
+                `;
+            } else if (isSummer) {
+                weatherStatus.innerHTML = `
+                    <p><strong>☀️ Summer Comfort!</strong></p>
+                    <p>Beat the heat with air-conditioned skyway travel</p>
+                `;
+            } else {
+                weatherStatus.innerHTML = `
+                    <p><strong>🌤️ Great Day for Skyways!</strong></p>
+                    <p>Comfortable indoor travel awaits</p>
+                `;
+            }
+        }
+        
+        // Original slide navigation code
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
