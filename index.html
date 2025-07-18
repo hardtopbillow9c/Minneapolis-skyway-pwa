@@ -680,6 +680,168 @@
                 padding-bottom: max(15px, env(safe-area-inset-bottom));
             }
         }
+        
+        /* Building Discovery Styles */
+        .building-discovery {
+            margin: 20px 0;
+        }
+        
+        .discovery-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .discovery-status {
+            text-align: center;
+            padding: 20px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #22c55e);
+            animation: progress 2s ease-in-out infinite;
+        }
+        
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+        
+        .building-results {
+            margin-top: 20px;
+        }
+        
+        .results-summary {
+            margin-bottom: 20px;
+        }
+        
+        .building-filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .building-filters select,
+        .search-input {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(30, 41, 59, 0.8);
+            color: #e8eaed;
+            font-size: 0.9em;
+        }
+        
+        .building-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: 12px;
+            background: rgba(30, 41, 59, 0.3);
+            padding: 16px;
+        }
+        
+        .building-card {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 3px solid #3b82f6;
+        }
+        
+        .building-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .building-header h4 {
+            margin: 0;
+            color: #3b82f6;
+            font-size: 1.1em;
+        }
+        
+        .building-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        
+        .status-open {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        
+        .status-closed {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .status-event-dependent {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        
+        .building-details {
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .building-address,
+        .building-type {
+            margin: 4px 0;
+            color: #cbd5e1;
+        }
+        
+        .building-hours {
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+        }
+        
+        .hours-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 2px 0;
+        }
+        
+        .building-amenities {
+            margin-top: 8px;
+        }
+        
+        .amenity-tag {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin: 2px 4px 2px 0;
+        }
+        
+        .no-results {
+            text-align: center;
+            color: #94a3b8;
+            font-style: italic;
+            padding: 40px;
+        }
     </style>
 </head>
 <body>
