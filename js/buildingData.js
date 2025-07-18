@@ -1,4 +1,4 @@
-// Building data for Minneapolis Skyway System
+// Comprehensive Building data for Minneapolis Skyway System
 const buildingData = [
     {
         id: 'ids-center',
@@ -11,7 +11,8 @@ const buildingData = [
         description: 'Crystal Court - Major skyway hub',
         connections: ['wells-fargo', 'city-center', 'marquette-plaza'],
         amenities: ['restaurants', 'shops', 'atm'],
-        reliability: 'high'
+        reliability: 'high',
+        coordinates: { lat: 44.9778, lng: -93.2703 }
     },
     {
         id: 'city-center',
@@ -24,7 +25,8 @@ const buildingData = [
         description: 'Shopping center with good weekend access',
         connections: ['ids-center', 'gaviidae-common', 'target-store'],
         amenities: ['shopping', 'food-court', 'restrooms'],
-        reliability: 'high'
+        reliability: 'high',
+        coordinates: { lat: 44.9765, lng: -93.2717 }
     },
     {
         id: 'wells-fargo-center',
@@ -37,7 +39,8 @@ const buildingData = [
         description: 'Major office building, weekday access only',
         connections: ['ids-center', 'us-bank-plaza'],
         amenities: ['restaurants', 'banking'],
-        reliability: 'medium'
+        reliability: 'medium',
+        coordinates: { lat: 44.9772, lng: -93.2708 }
     },
     {
         id: 'target-store',
@@ -50,7 +53,8 @@ const buildingData = [
         description: 'Reliable weekend access, connects to Nicollet Mall',
         connections: ['city-center', 'gaviidae-common'],
         amenities: ['shopping', 'pharmacy', 'starbucks'],
-        reliability: 'very-high'
+        reliability: 'very-high',
+        coordinates: { lat: 44.9758, lng: -93.2775 }
     },
     {
         id: 'us-bank-plaza',
@@ -63,7 +67,8 @@ const buildingData = [
         description: 'Major office complex',
         connections: ['wells-fargo-center', 'capella-tower'],
         amenities: ['restaurants', 'banking'],
-        reliability: 'medium'
+        reliability: 'medium',
+        coordinates: { lat: 44.9769, lng: -93.2695 }
     },
     {
         id: 'target-center',
@@ -76,7 +81,8 @@ const buildingData = [
         description: 'Extended hours during Timberwolves/Lynx games',
         connections: ['parking-ramps', 'marriott-city-center'],
         amenities: ['arena', 'concessions'],
-        reliability: 'event-dependent'
+        reliability: 'event-dependent',
+        coordinates: { lat: 44.9795, lng: -93.2761 }
     },
     {
         id: 'marriott-city-center',
@@ -89,7 +95,8 @@ const buildingData = [
         description: 'Hotel with 24/7 access',
         connections: ['target-center', 'city-center'],
         amenities: ['hotel', 'restaurant', 'parking'],
-        reliability: 'very-high'
+        reliability: 'very-high',
+        coordinates: { lat: 44.9773, lng: -93.2715 }
     },
     {
         id: 'radisson-blu',
@@ -102,7 +109,8 @@ const buildingData = [
         description: 'Hotel with extended hours',
         connections: ['marriott-city-center', 'city-center'],
         amenities: ['hotel', 'restaurant', 'fitness'],
-        reliability: 'high'
+        reliability: 'high',
+        coordinates: { lat: 44.9771, lng: -93.2713 }
     },
     {
         id: 'government-center',
@@ -115,7 +123,8 @@ const buildingData = [
         description: 'Government offices, weekday access only',
         connections: ['hennepin-county', 'courthouse'],
         amenities: ['government-services'],
-        reliability: 'low'
+        reliability: 'low',
+        coordinates: { lat: 44.9833, lng: -93.2654 }
     },
     {
         id: 'convention-center',
@@ -128,7 +137,8 @@ const buildingData = [
         description: 'Access varies by events and conferences',
         connections: ['hilton-minneapolis', 'parking-ramps'],
         amenities: ['convention-space', 'restaurants'],
-        reliability: 'medium'
+        reliability: 'medium',
+        coordinates: { lat: 44.9703, lng: -93.2719 }
     },
     {
         id: 'central-library',
@@ -141,7 +151,8 @@ const buildingData = [
         description: 'Public library with weekend hours',
         connections: ['government-center', 'nicollet-mall'],
         amenities: ['library', 'wifi', 'restrooms'],
-        reliability: 'high'
+        reliability: 'high',
+        coordinates: { lat: 44.9798, lng: -93.2775 }
     },
     {
         id: '100-washington-square',
@@ -154,7 +165,8 @@ const buildingData = [
         description: 'Rare weekend access for office building',
         connections: ['111-washington-square', 'mill-district'],
         amenities: ['offices', 'parking'],
-        reliability: 'high'
+        reliability: 'high',
+        coordinates: { lat: 44.9833, lng: -93.2583 }
     },
     {
         id: '111-washington-square',
@@ -167,7 +179,111 @@ const buildingData = [
         description: 'Standard office building hours',
         connections: ['100-washington-square', 'mill-district'],
         amenities: ['offices'],
-        reliability: 'medium'
+        reliability: 'medium',
+        coordinates: { lat: 44.9831, lng: -93.2581 }
+    },
+    {
+        id: 'gaviidae-common',
+        name: 'Gaviidae Common',
+        address: '651 Nicollet Mall',
+        type: 'shopping',
+        weekdayHours: '7:00 AM - 9:00 PM',
+        weekendHours: '10:00 AM - 6:00 PM',
+        status: 'good-weekend',
+        description: 'Shopping center with good weekend access',
+        connections: ['city-center', 'target-store', 'rbc-plaza'],
+        amenities: ['shopping', 'restaurants', 'restrooms'],
+        reliability: 'high',
+        coordinates: { lat: 44.9752, lng: -93.2775 }
+    },
+    {
+        id: 'rbc-plaza',
+        name: 'RBC Plaza',
+        address: '60 S 6th St',
+        type: 'office',
+        weekdayHours: '6:00 AM - 6:00 PM',
+        weekendHours: 'Closed',
+        status: 'weekday-only',
+        description: 'Office building, weekday access only',
+        connections: ['gaviidae-common', 'us-bank-plaza'],
+        amenities: ['offices', 'banking'],
+        reliability: 'medium',
+        coordinates: { lat: 44.9766, lng: -93.2701 }
+    },
+    {
+        id: 'capella-tower',
+        name: 'Capella Tower',
+        address: '225 S 6th St',
+        type: 'office',
+        weekdayHours: '6:00 AM - 6:00 PM',
+        weekendHours: 'Limited',
+        status: 'popular-entry',
+        description: 'Major office tower',
+        connections: ['us-bank-plaza', 'wells-fargo-center'],
+        amenities: ['offices', 'restaurants'],
+        reliability: 'medium',
+        coordinates: { lat: 44.9763, lng: -93.2688 }
+    },
+    {
+        id: 'hilton-minneapolis',
+        name: 'Hilton Minneapolis',
+        address: '1001 Marquette Ave S',
+        type: 'hotel',
+        weekdayHours: '24 hours',
+        weekendHours: '24 hours',
+        status: 'excellent-weekend',
+        description: 'Hotel with 24/7 access',
+        connections: ['convention-center', 'marquette-plaza'],
+        amenities: ['hotel', 'restaurant', 'fitness'],
+        reliability: 'very-high',
+        coordinates: { lat: 44.9715, lng: -93.2734 }
+    },
+    {
+        id: 'marquette-plaza',
+        name: 'Marquette Plaza',
+        address: '520 Marquette Ave',
+        type: 'office',
+        weekdayHours: '6:00 AM - 6:00 PM',
+        weekendHours: 'Closed',
+        status: 'weekday-only',
+        description: 'Office complex',
+        connections: ['hilton-minneapolis', 'ids-center'],
+        amenities: ['offices'],
+        reliability: 'medium',
+        coordinates: { lat: 44.9751, lng: -93.2721 }
+    },
+    {
+        id: 'hennepin-county',
+        name: 'Hennepin County Government Center',
+        address: '300 S 4th St',
+        type: 'government',
+        weekdayHours: '7:00 AM - 5:00 PM',
+        weekendHours: 'Closed',
+        status: 'weekday-only',
+        description: 'County government offices',
+        connections: ['government-center', 'courthouse'],
+        amenities: ['government-services', 'parking'],
+        reliability: 'low',
+        coordinates: { lat: 44.9835, lng: -93.2652 }
+    }
+];
+
+// Additional building categories for better organization
+const buildingCategories = {
+    'major-hubs': ['ids-center', 'city-center', 'target-center'],
+    'weekend-friendly': ['marriott-city-center', 'radisson-blu', 'hilton-minneapolis', 'target-store', 'gaviidae-common', '100-washington-square'],
+    'hotels': ['marriott-city-center', 'radisson-blu', 'hilton-minneapolis'],
+    'shopping': ['city-center', 'gaviidae-common', 'target-store'],
+    'government': ['government-center', 'hennepin-county'],
+    'event-venues': ['target-center', 'convention-center']
+};
+
+// Hours formatting helper
+function formatHours(weekday, weekend) {
+    return {
+        weekday: weekday,
+        weekend: weekend,
+        formatted: `Weekdays: ${weekday} | Weekends: ${weekend}`
     }
 ];
 
