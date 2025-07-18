@@ -1,0 +1,13 @@
+{
+  "name": "minneapolis-skyway-pwa",
+  "version": "1.0.0",
+  "description": "Navigate the Minneapolis Skyway System with confidence - operating hours, routes, and tips",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server . -p 3000 -c-1",
+    "dev": "npx http-server . -p 3000 -c-1"
+  },
+  "keywords": ["minneapolis", "skyway", "pwa", "navigation"],
+  "author": "",
+  "license": "MIT"
+}
